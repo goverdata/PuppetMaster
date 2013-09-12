@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>ramp1.0</display-name>
+
+
+    <context-param>
+        <param-name>ESAPIConfiguration</param-name>
+        <param-value>/WEB-INF/waf</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>com.github.pm.ws.listener.ESAPIContextListener</listener-class>
+    </listener>
+
+
+    <filter>
+        <filter-name>authorize</filter-name>
+        <filter-class>com.github.pm.ws.AuthorizeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+		<filter-name>authorize</filter-name>
+		<url-pattern>/ws/*</url-pattern>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+
+
+    <filter>
+        <filter-name>esapiFilter</filter-name>
+        <filter-class>org.owasp.esapi.waf.ESAPIWebApplicationFirewallFilter</filter-class>
+        <init-param>
+            <param-name>configuration</param-name>
+            <param-value>/WEB-INF/waf/ramp-policy.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>log_settings</param-name>
+            <param-value>/WEB-INF/waf/log4j.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>polling_time</param-name>
+            <param-value>10000</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>esapiFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <servlet>
+		<description>RAMP workspace MCT process servlet</description>
+		<servlet-name>WorkSpaceMCTServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceMCTServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<description>RAMP workspace Health Check process servlet</description>
+		<servlet-name>WorkSpaceHealthCheckServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceHealthCheckServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>RAMP workspace Job process servlet</description>
+		<servlet-name>WorkSpaceJobServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceJobServlet</servlet-class>
+		<init-param>
+			<param-name>isMock</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<description>RAMP workspace Project process servlet</description>
+		<servlet-name>WorkSpaceProjectServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceProjectServlet</servlet-class>
+		<init-param>
+			<param-name>isMock</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<description>RAMP workspace Table process servlet</description>
+		<servlet-name>WorkSpaceTableServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceTableServlet</servlet-class>
+		<init-param>
+			<param-name>isMock</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<description>RAMP workspace login process servlet</description>
+		<servlet-name>WorkSpaceLoginServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceLoginServlet</servlet-class>
+		<init-param>
+			<param-name>isMock</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<description>RAMP workspace report process servlet</description>
+		<servlet-name>WorkSpaceReportServlet</servlet-name>
+		<servlet-class>com.github.pm.ws.servlet.WorkSpaceReportServlet</servlet-class>
+		<init-param>
+			<param-name>isMock</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceMCTServlet</servlet-name>
+		<url-pattern>/mct</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceHealthCheckServlet</servlet-name>
+		<url-pattern>/healthcheck</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceJobServlet</servlet-name>
+		<url-pattern>/ws/job</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceProjectServlet</servlet-name>
+		<url-pattern>/ws/project</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceTableServlet</servlet-name>
+		<url-pattern>/ws/table</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceReportServlet</servlet-name>
+		<url-pattern>/ws/report</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceLoginServlet</servlet-name>
+		<url-pattern>/ws/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WorkSpaceLoginServlet</servlet-name>
+		<url-pattern>/ws/logout</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>home.html</welcome-file>
+	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
+</web-app>
