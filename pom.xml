@@ -29,7 +29,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
 		</dependency>
-
+		<!--
 		<dependency>
 			<groupId>webex</groupId>
 			<artifactId>wapicom</artifactId>
@@ -40,7 +40,7 @@
 			<artifactId>apptoken</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-		
+		-->
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>

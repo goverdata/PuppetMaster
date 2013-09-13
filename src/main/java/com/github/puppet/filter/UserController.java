@@ -26,7 +26,13 @@ public class UserController {
 		ClientSession clientSession = new ClientSession(request, response);
 		StringValidator.verifyEmpty("userMail", userMail);
 		StringValidator.verifyEmpty("password", password);
-		User user = LDAPLogin.login(userMail, password);
+		// FIXME
+		// Mock Data
+		// User user = LDAPLogin.login(userMail, password);
+		User user = new User();
+		user.setToken("95690026@qq.com");
+		user.setUserMail("95690026@qq.com");
+		user.setUserName("Qian Deng");
 		if (user != null) {
 			request.setAttribute("user_token", user.getUserMail());
 			request.setAttribute("userMail", user.getUserMail());

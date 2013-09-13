@@ -25,8 +25,8 @@ import com.github.common.exception.RAMPAPIException;
 import com.github.common.exception.StatusCode;
 import com.github.common.security.StringValidator;
 import com.github.puppet.filter.UserSessionUtil;
-import com.webex.webapp.common.exception.WbxAppTokenException;
-import com.webex.webapp.common.util.security.AppTokenUtil;
+//import com.webex.webapp.common.exception.WbxAppTokenException;
+//import com.webex.webapp.common.util.security.AppTokenUtil;
 
 public class HttpClientUtil {
 	private static ObjectMapper mapper = new ObjectMapper();
@@ -124,12 +124,12 @@ public class HttpClientUtil {
 			if (headers == null) {
 				headers = new HashMap<String, String>();
 			}
-			try {
-				headers.put("appName", appName);
-				headers.put("appToken", AppTokenUtil.makeTicket2(appName));
-			} catch (WbxAppTokenException e) {
-				throw new RuntimeException(e);
-			}
+//			try {
+//				headers.put("appName", appName);
+//				headers.put("appToken", AppTokenUtil.makeTicket2(appName));
+//			} catch (WbxAppTokenException e) {
+//				throw new RuntimeException(e);
+//			}
 		}
 	}
 
