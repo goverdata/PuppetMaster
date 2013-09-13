@@ -1,11 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>PuppetMaster</groupId>
-  <artifactId>PuppetMaster</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
-  
-  <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github</groupId>
+	<version>1.2</version>
+	<packaging>war</packaging>
+	<properties>
+		<spring.version>3.2.2.RELEASE</spring.version>
+		<jersey.version>1.15</jersey.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>jsr311-api</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -22,6 +30,17 @@
 			<version>3.0.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>webex</groupId>
+			<artifactId>wapicom</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>webex</groupId>
+			<artifactId>apptoken</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -190,6 +209,11 @@
 			<name>Maven 2 Repository on ibibio</name>
 			<url>http://central.maven.org/maven2/</url>
 		</repository>
+		<repository>
+			<id>cloudera</id>
+			<name>Maven 2 Repository on cloudera</name>
+			<url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+		</repository>
 	</repositories>
 	<build>
 		<finalName>diweb</finalName>
@@ -204,4 +228,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<artifactId>diweb</artifactId>
 </project>

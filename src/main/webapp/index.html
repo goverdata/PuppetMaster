@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="ditailManager">
+<head>
+<title>Configuration Manager</title>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
+<link type="text/css" rel="stylesheet"
+	href="css/bootstrap-responsive.css" />
+<link type="text/css" rel="stylesheet" href="css/ditailmanager.css" />
+<script src="js/jquery-1.8.3.js"></script>
+<script src="js/angular.min-1.1.5.js"></script>
+<script src="js/angular-resource.min-1.1.5.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/user.js"></script>
+</head>
+<body>
+	<div ng-include="'header.html'"></div>
+	<br />
+	<div ng-controller="ServerTypeCtrl" class="mainContainer"
+		ng-init="serverTypeId=null;listServerTypes()">
+		<div class="sidebar-nav" style='width: 17%; float: left'>
+			<div class='well' style='width: 100%'>
+				Filter by Server Type Name: <br /> <input
+					ng-model="serverTypeSearch.name" style="width: 100%"><br />
+				<br />
+				<table style="width: 100%">
+					<tr>
+						<th style="color: #FFFFFF; background: #0088CC;">Modules</th>
+					</tr>
+					<tr
+						ng-repeat='serverType in serverTypes.entries | filter:serverTypeSearch'>
+						<td style="padding-left: 0" valign="top"><a
+							ng-class="selectedServerType==serverType.name?'selected':''"
+							href='#' ng-click="selectServerType(serverType)"
+							style="display: block;">{{serverType.name}}</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div style="margin-left: 21%; width: 78%"
+			ng-include="'servertype/view.html'"></div>
+	    </div>
+</body>
+</html>

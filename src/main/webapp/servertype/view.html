@@ -1,0 +1,215 @@
+<div ng-show="serverType">
+	<ul class="nav nav-tabs"
+		ng-init="tabName='serverTypeConfig';unlimitedSpeed=0">
+		<li ng-click="(tabName='serverTypeConfig')"
+			ng-class="(tabName=='serverTypeConfig'?'active':'')"><a href="#">Server
+				Type Configuration</a></li>
+		<li ng-click="(tabName='ditailList')"
+			ng-class="(tabName=='ditailList'?'active':'')"><a href="#">DITail
+				List</a></li>
+		<br />
+		<br />
+		<!-- Server Type Configuration -->
+		<div class="serverTypeConfig" ng-show="(tabName=='serverTypeConfig')">
+			<!-- Server Type Basic Configuration -->
+			<table style="width: 100%;">
+				<tr style="color: #FFFFFF; background: #0088CC;">
+					<th style="width: 16%;"><span>Property</span></th>
+					<th><span>Value</span></th>
+				</tr>
+				<tr>
+					<td style="text-align: left">Server Type</td>
+					<td style="text-align: left">{{serverType.name}}</td>
+				</tr>
+				<tr>
+					<td style="text-align: left">Speed Limitation</td>
+					<td style="text-align: left"><span ng-show="!editing"><span
+							ng-show="serverType.speedLimit<=unlimitedSpeed">Unlimited</span><span
+							ng-show="serverType.speedLimit>unlimitedSpeed">{{serverType.speedLimit}}
+								B/s</span> </span><span ng-show="editing"> <input
+							ng-model="serverType.speedLimit" /> B/s<a class="btn"
+							ng-click="serverType.speedLimit=unlimitedSpeed">Remove speed
+								limitation</a>
+					</span></td>
+				</tr>
+
+			</table>
+			<br />
+
+			<!-- Server Type Log Directory Configuration -->
+			<div ng-repeat='logGroup in serverType.groups'
+				ng-init="collapseHref='#collapse'+$index;collapseId='collapse'+$index">
+				<div class="accordion-group">
+					<div class="accordion-heading">
+						<a class="accordion-toggle" data-toggle="collapse"
+							href="{{collapseHref}}"> DITail Log Group #{{$index}} </a>
+					</div>
+					<div id="{{collapseId}}"
+						ng-class="editing?'accordion-body collapse in':'accordion-body collapse'">
+						<div class="accordion-inner">
+							<div class="well">
+								<a class="btn block" href="#" ng-show="editing"
+									ng-click="removeLogGroup($index)"><i class="icon-remove"></i>
+									Remove This Log Group</a>
+								<table style="width: 100%;">
+									<tr>
+										<td style="width: 100px">Raw Data ID</td>
+										<td><label ng-show="!editing">{{logGroup.name}}</label><span><input
+												ng-show="editing" ng-model="logGroup.name" /> <a
+												class="btn" ng-show="false" data-toggle="modal"
+												href="#selectRawData" ng-click="openRawDataSelectModle()">Select
+													Raw Data</a> </span></td>
+									</tr>
+									<tr>
+										<td style="text-align: left">Enabled</td>
+										<td style="text-align: left"><label
+											ng-show="editing==false">{{logGroup.enabled}}</label> <input
+											ng-show="editing==true" type="checkbox"
+											ng-model="logGroup.enabled"></td>
+									</tr>
+									<tr>
+										<td>Log Directories</td>
+										<td ng-init="groupIndex=$index" rowspan=3>
+											<table style="width: 100%;">
+												<tr>
+													<th>Folder</th>
+													<th>Pattern</th>
+													<th>Begin Line</th>
+													<th>End Line</th>
+												</tr>
+												<tr ng-repeat='log in logGroup.logs'>
+													<td><label ng-show="!editing">{{log.dir}}</label><input
+														ng-show="editing" ng-model="log.dir" /></td>
+													<td><label ng-show="!editing">{{log.pattern}}</label><input
+														ng-show="editing" ng-model="log.pattern" /></td>
+													<td><label ng-show="!editing">{{log.beginLine}}</label><input
+														ng-show="editing" ng-model="log.beginLine" /></td>
+													<td><label ng-show="!editing">{{log.endLine}}</label><input
+														ng-show="editing" ng-model="log.endLine" /></td>
+													<td ng-show="editing"><a class="btn" href="#"
+														ng-click="removeLogDir(groupIndex, $index)"
+														title="Remove this log directory"><i
+															class="icon-remove"></i> </a></td>
+												</tr>
+											</table> <a class="btn block" href="#" ng-show="editing"
+											ng-click="addLogDir(groupIndex)"><i class="icon-plus"></i>
+												Add Log Directory</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<a class="btn block" href="#" ng-show="editing"
+				ng-click="addLogGroup()"><i class="icon-plus"></i> Add New Log
+				Group</a> <br /> <input ng-show="!editing" id="updateServerType"
+				class="btn btn-primary" type="button" value="Update Server Type"
+				style="float: right" ng-click="setEditing(true)" /> <input
+				ng-show="editing" id="saveServerType" class="btn btn-primary"
+				type="button" value="Save Changes" style="float: right"
+				ng-click="saveConfiguration(serverTypeId)" />
+
+			<!-- Select Raw Data Modal -->
+			<div id="selectRawData" class="modal hide fade" tabindex="-1"
+				role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">Select Raw Data</h3>
+				</div>
+				<div class="modal-body">
+					Raw Data Name: &nbsp; <select>
+						<option ng-repeat='rawData in rawDatas'
+							ng-click="setFocusedRawData(rawData)" value="{{rawData.id}}">{{rawData.name}}</option>
+					</select> <br /> Raw Data ID:
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+						ng-bind="focusedRawData.id"></span>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					<button class="btn btn-primary" data-dismiss="modal"
+						ng-click="setRawDataId()">Set Raw Data ID</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- DITail List -->
+		<div ng-show="(tabName=='ditailList')">
+			<table class="DataTable" style="width: 100%">
+				<tr style="color: #FFFFFF; background: #0088CC;">
+					<th class="sorting_desc" width="80px">Status</th>
+					<th>Host Name</th>
+					<th width="100px">DCID</th>
+					<th width="100px">Enabled</th>
+					<th width="138px">Speed Limitation</th>
+					<th width="138px">Last Heart Beat</th>
+					<th width="100px">Actions</th>
+				</tr>
+				<tr>
+					<td><input ng-model="ditailSearch.status" style="width: 90%"></td>
+					<td><input ng-model="ditailSearch.hostname" style="width: 90%"></td>
+					<td><input ng-model="ditailSearch.cdId" style="width: 90%"></td>
+					<td><select ng-model="ditailSearch.enabled" style="width: 90%">
+							<option value=''>All</option>
+							<option value=true>True</option>
+							<option value=false>False</option>
+					</select></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr ng-repeat='ditail in ditails.entries | filter:ditailSearch'
+					ng-class-odd="''">
+					<td><span
+						ng-class="ditail.status=='OKOKOK'?'label label-success':'label label-warning'">{{ditail.status}}</span></td>
+					<td>{{ditail.hostname}}</td>
+					<td>{{ditail.dcId}}</td>
+					<td><span ng-show="ditail.enabled" class="label label-success">True</span><span
+						ng-show="!ditail.enabled" class="label label-warning">False</span></td>
+					<td><span ng-show="ditail.speedLimit<=unlimitedSpeed">Unlimited</span><span
+						ng-show="ditail.speedLimit>unlimitedSpeed">{{ditail.speedLimit}}
+							B/s</span></td>
+					<td>{{ditail.heartBeats[ditail.heartBeats.length-1].timestamp
+						| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+					<td style="align: centre"><div class="btn-group">
+							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								Actions <span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu pull-right">
+								<li><a href="#" ng-click="enableDITail(ditail)">Enable</a></li>
+								<li><a href="#" ng-click="disableDITail(ditail)">Disable</a></li>
+								<li class="divider"></li>
+								<li><a data-toggle="modal" href="#settingSpeedModal"
+									ng-click="setFocusedDITail(ditail)">Limit Speed</a></li>
+							</ul>
+						</div></td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- Set Speed Modal -->
+		<div id="settingSpeedModal" class="modal hide fade" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Set Speed Limitation</h3>
+			</div>
+			<div class="modal-body">
+				<p>Set Speed limitation for : {{focusedDITail.hostName}}</p>
+				<input ng-model="focusedDITail.speedLimit" /> B/s <br /> <a
+					class="btn" ng-click="focusedDITail.speedLimit=unlimitedSpeed">Remove
+					speed limitation</a>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+				<button class="btn btn-primary" data-dismiss="modal"
+					ng-click="setSpeedLimit()">Save changes</button>
+			</div>
+		</div>
+	</ul>
+</div>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="issueboard">
+	<head>
+		<title>Configuration Manager</title>
+		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="css/login.css" />
+		<script src="js/jquery-1.8.3.js"></script>
+		<script src="js/angular.min-1.1.5.js"></script>
+        <script src="js/angular-resource.min-1.1.5.js"></script>
+		<script src="js/user.js"></script>
+	</head>
+	<body>
+		<div class="modal-backdrop" style="z-index:0;opacity:0.5"></div>
+		<form name="loginForm" method="post">
+		    <div class="loginForm well" ng-controller="LoginCtl">
+			    <br />
+			    <div style="color: red" ng-show="failed">Name or password incorrect</div>
+			    <div style="color: red" ng-show="loginForm.userMail.$error.email">Not valid email!</div>
+			    <label for="userMail">userMail<span style="color: red" ng-show="loginForm.userMail.$error.required">*</span>:</label>
+			    <input name="userMail" type="email" ng-model="userMail" required auto-fill-sync/>
+			    <label for="password">Password<span style="color: red" ng-show="loginForm.password.$error.required">*</span>:</label>
+			    <input name="password" type="password" ng-model="password" required auto-fill-sync />
+			    <br />
+			    <input class="btn btn-primary" type="submit" value="submit" ng-click="login()" />
+		    </div>
+		</form>
+	</body>
+</html>

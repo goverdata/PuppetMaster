@@ -1,0 +1,52 @@
+.loginForm {
+	top: 25%;
+	margin-left: 40%;
+	position: absolute;
+}
+
+.headerContainer {
+	border-bottom: 1px solid #E3E3E3;
+	text-align: right;
+	padding-right: 1%;
+}
+
+.alert-info {
+	color: #333;
+}
+
+.mainContainer a {
+	white-space: normal;
+	word-break: break-all;
+	text-decoration: none;
+	padding-left: 10px;
+}
+
+.block {
+	display: block;
+}
+
+.mainContainer {
+	padding-left: 1%;
+	width: 99%;
+}
+
+.mainContainer input {
+	width: auto;
+}
+
+.mainContainer table {
+	border-collapse: collapse;
+	border: 1px solid #E3E3E3;
+	border-radius: 4px;
+}
+
+.mainContainer th,.mainContainer td {
+	padding-left: 10px;
+	border: 1px solid #ddd;
+	line-height: 26px;
+}
+
+a.selected:focus {
+	background: #1199DD;
+	color: #FFFFFF;
+}
